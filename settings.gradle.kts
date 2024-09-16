@@ -23,5 +23,5 @@ rootProject.name = "RemitConnect"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
-include(":domain")
-include(":data")
+include(":core:domain")
+include(":core:data")
