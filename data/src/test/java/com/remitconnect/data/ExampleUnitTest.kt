@@ -1,4 +1,4 @@
-package com.remitconnect.domain
+package com.remitconnect.data
 
 import org.junit.Test
 
