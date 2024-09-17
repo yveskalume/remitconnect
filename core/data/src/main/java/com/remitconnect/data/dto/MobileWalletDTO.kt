@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MobileWalletDTO(
+internal data class MobileWalletDTO(
     @SerialName("id")
     val id: String,
     @SerialName("name")
@@ -15,7 +15,7 @@ data class MobileWalletDTO(
 /**
  * Convert a [MobileWalletDTO] to a [MobileWallet]
  */
-fun MobileWalletDTO.toDomainModel(): MobileWallet {
+internal fun MobileWalletDTO.toDomainModel(): MobileWallet {
     return MobileWallet(
         id = id,
         name = name
@@ -25,6 +25,6 @@ fun MobileWalletDTO.toDomainModel(): MobileWallet {
 /**
  * Convert a list of [MobileWalletDTO] to a list of [MobileWallet]
  */
-fun List<MobileWalletDTO>.toDomainModels(): List<MobileWallet> {
+internal fun List<MobileWalletDTO>.toDomainModels(): List<MobileWallet> {
     return map { it.toDomainModel() }
 }

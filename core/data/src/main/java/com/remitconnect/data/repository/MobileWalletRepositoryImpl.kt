@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MobileWalletRepositoryImpl @Inject constructor(
+internal class MobileWalletRepositoryImpl @Inject constructor(
     private val remoteDataSource: MobileWalletRemoteDataSource
 ) : MobileWalletRepository {
 

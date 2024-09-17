@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class CountryRepositoryImpl @Inject constructor(
+internal class CountryRepositoryImpl @Inject constructor(
     private val remoteDataSource: CountryRemoteDataSource
 ) : CountryRepository {
 

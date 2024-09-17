@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CountryDTO(
+internal data class CountryDTO(
     @SerialName("id")
     val id: String,
     @SerialName("name")
@@ -17,7 +17,7 @@ data class CountryDTO(
 /**
  * Convert a [CountryDTO] to a [Country]
  */
-fun CountryDTO.toDomainModel(): Country {
+internal fun CountryDTO.toDomainModel(): Country {
     return Country(
         id = id,
         name = name,
@@ -28,6 +28,6 @@ fun CountryDTO.toDomainModel(): Country {
 /**
  * Convert a list of [CountryDTO] to a list of [Country]
  */
-fun List<CountryDTO>.toDomainModels(): List<Country> {
+internal fun List<CountryDTO>.toDomainModels(): List<Country> {
     return map { it.toDomainModel() }
 }
