@@ -6,8 +6,8 @@ plugins {
 }
 
 android {
-    namespace = "com.remitconnect.feature.home"
-    compileSdk = 35
+    namespace = "com.remitconnect.feature.sendmoney"
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -28,9 +28,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-    buildFeatures {
-        compose = true
     }
     kotlinOptions {
         jvmTarget = "17"

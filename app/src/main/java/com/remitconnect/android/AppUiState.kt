@@ -8,6 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navOptions
 import com.remitconnect.android.navigation.BottomNavDestination
+import com.remitconnect.feature.home.navigateToHome
+import com.remitconnect.feature.sendmoney.navigateToSendMoney
 
 @Composable
 fun rememberAppUiState(
@@ -61,18 +63,17 @@ class AppUiState(
         }
 
         when (destination) {
-            BottomNavDestination.Home -> {
-                //TODO()
-            }
+            BottomNavDestination.Home -> navController.navigateToHome(navOptions)
+            BottomNavDestination.SendMoney -> navController.navigateToSendMoney(navOptions)
+
             BottomNavDestination.Card -> {
                 //TODO()
             }
-            BottomNavDestination.SendMoney -> {
-                //TODO()
-            }
+
             BottomNavDestination.Tontines -> {
                 //TODO()
             }
+
             BottomNavDestination.Settings -> {
                 //TODO()
             }

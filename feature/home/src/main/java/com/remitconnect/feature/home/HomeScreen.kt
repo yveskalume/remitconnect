@@ -37,6 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.remitconnect.designsystem.resources.Drawable
+import com.remitconnect.designsystem.theme.BackgroundColor
 import com.remitconnect.designsystem.theme.Green200
 import com.remitconnect.designsystem.theme.Green400
 import com.remitconnect.designsystem.theme.RemitConnectTheme
@@ -49,11 +50,12 @@ import com.remitconnect.designsystem.views.TransactionView
 fun HomeScreen() {
     val scrollState = rememberScrollState()
     Scaffold(
+        containerColor = BackgroundColor,
         topBar = {
             TopAppBar(
                 title = {},
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
+                    containerColor = BackgroundColor,
                 )
             )
         }

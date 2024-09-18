@@ -3,6 +3,7 @@ package com.remitconnect.android.navigation
 import androidx.annotation.DrawableRes
 import com.remitconnect.designsystem.resources.Drawable
 import com.remitconnect.feature.home.HomeRoute
+import com.remitconnect.feature.sendmoney.SendMoneyFeatureRoute
 
 enum class BottomNavDestination(
     @DrawableRes val icon: Int,
@@ -22,7 +23,7 @@ enum class BottomNavDestination(
     SendMoney(
         icon = Drawable.paperPlane,
         label = "Send Money",
-        route = ""
+        route = SendMoneyFeatureRoute::class.qualifiedName.toString()
     ),
     Tontines(
         icon = Drawable.coinF,

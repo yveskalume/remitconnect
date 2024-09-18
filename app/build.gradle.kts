@@ -49,6 +49,7 @@ android {
 
 dependencies {
     implementation(projects.feature.home)
+    implementation(projects.feature.sendmoney)
 
     implementation(projects.core.designsystem)
 
