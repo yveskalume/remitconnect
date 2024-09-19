@@ -7,13 +7,13 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 
 @Serializable
-object ChooseMobileWalletRoute
+internal object ChooseMobileWalletRoute
 
-fun NavHostController.navigateToChooseMobileWallet(navOptions: NavOptions? = null) {
+internal fun NavHostController.navigateToChooseMobileWallet(navOptions: NavOptions? = null) {
     navigate(ChooseMobileWalletRoute, navOptions)
 }
 
-fun NavGraphBuilder.chooseMobileWallet(
+internal fun NavGraphBuilder.chooseMobileWallet(
     onNavigateBack: () -> Unit,
     onNavigateToSendMoneyConfirmation: () -> Unit
 ) {

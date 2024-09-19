@@ -68,7 +68,7 @@ private val recipientTabs = mapOf(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChooseRecipientScreen(
+internal fun ChooseRecipientScreen(
     onBackClick: () -> Unit,
     onContinueClick: () -> Unit
 ) {

@@ -30,7 +30,7 @@ import com.remitconnect.designsystem.views.MobileWalletItemView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChooseMobileWalletScreen(
+internal fun ChooseMobileWalletScreen(
     onNavigateBack: () -> Unit,
     onNavigateToSendMoneyConfirmation: () -> Unit
 ) {

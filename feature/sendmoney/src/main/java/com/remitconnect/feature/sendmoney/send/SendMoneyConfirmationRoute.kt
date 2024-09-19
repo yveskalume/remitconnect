@@ -6,13 +6,13 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 
 @Serializable
-object SendMoneyConfirmationRoute
+internal object SendMoneyConfirmationRoute
 
-fun NavHostController.navigateToSendMoneyConfirmation() {
+internal fun NavHostController.navigateToSendMoneyConfirmation() {
     navigate(SendMoneyConfirmationRoute)
 }
 
-fun NavGraphBuilder.sendMoneyConfirmationScreen(
+internal fun NavGraphBuilder.sendMoneyConfirmationScreen(
     onBackClick: () -> Unit
 ) {
     composable<SendMoneyConfirmationRoute> {

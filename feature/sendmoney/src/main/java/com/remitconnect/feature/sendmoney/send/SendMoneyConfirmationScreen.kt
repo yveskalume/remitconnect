@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.remitconnect.designsystem.resources.Drawable
+import com.remitconnect.designsystem.theme.Gray200
 import com.remitconnect.designsystem.theme.RemitConnectTheme
 import com.remitconnect.designsystem.theme.labelGray
 import com.remitconnect.designsystem.theme.surfaceGray
@@ -47,7 +48,7 @@ import com.remitconnect.designsystem.views.HorizontalDashedDivider
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SendMoneyConfirmationScreen(
+internal fun SendMoneyConfirmationScreen(
     onBackClick: () -> Unit
 ) {
 
@@ -334,7 +335,7 @@ private fun ConfirmationDialog(
                 BottomSheetDefaults.DragHandle(
                     width = 72.dp,
                     height = 6.dp,
-                    color = MaterialTheme.colorScheme.surfaceGray
+                    color = Gray200
                 )
             }
         ) {
