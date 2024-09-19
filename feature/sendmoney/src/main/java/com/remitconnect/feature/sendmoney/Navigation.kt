@@ -4,6 +4,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.navigation
+import com.remitconnect.feature.sendmoney.mobilewallets.chooseMobileWallet
+import com.remitconnect.feature.sendmoney.mobilewallets.navigateToChooseMobileWallet
 import com.remitconnect.feature.sendmoney.recipients.chooseRecipient
 import com.remitconnect.feature.sendmoney.recipients.navigateToChooseRecipient
 import com.remitconnect.feature.sendmoney.sendoptions.SendMoneyOptionsRoute
@@ -34,7 +36,10 @@ fun NavGraphBuilder.sendMoney(
         )
         chooseRecipient(
             onNavigateBack = onNavigateBack,
-            onNavigateToChooseWallet = {}
+            onNavigateToChooseWallet = navController::navigateToChooseMobileWallet
+        )
+        chooseMobileWallet(
+            onNavigateBack = onNavigateBack
         )
     }
 }

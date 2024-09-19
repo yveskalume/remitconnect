@@ -113,7 +113,7 @@ fun ChooseRecipientScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Button(
-                        onClick = {},
+                        onClick = onContinueClick,
                         modifier = Modifier
                             .padding(bottom = 32.dp, top = 16.dp)
                             .fillMaxWidth()
@@ -186,7 +186,10 @@ fun ChooseRecipientScreen(
 
             AnimatedContent(targetState = selectedTabIndex, label = "") { index ->
                 when (index) {
-                    0 -> PreviousRecipientsTabContent()
+                    0 -> PreviousRecipientsTabContent(
+                        onRecipientClick = onContinueClick
+                    )
+
                     1 -> NewRecipientTabContent()
                 }
             }
@@ -196,7 +199,10 @@ fun ChooseRecipientScreen(
 }
 
 @Composable
-private fun PreviousRecipientsTabContent(modifier: Modifier = Modifier) {
+private fun PreviousRecipientsTabContent(
+    onRecipientClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
     ) {
@@ -212,7 +218,7 @@ private fun PreviousRecipientsTabContent(modifier: Modifier = Modifier) {
         (1..10).forEach {
             key(it) {
                 HorizontalDivider(thickness = 0.4.dp)
-                ContactItemView(onClick = {}, modifier = Modifier.padding(horizontal = 24.dp))
+                ContactItemView(onClick = onRecipientClick, modifier = Modifier.padding(horizontal = 24.dp))
             }
         }
         HorizontalDivider(thickness = 0.4.dp)
@@ -369,7 +375,9 @@ private fun ChooseRecipientScreenPreview() {
 @Composable
 private fun PreviousRecipientTabContentPreview() {
     RemitConnectTheme {
-        PreviousRecipientsTabContent()
+        PreviousRecipientsTabContent(
+            onRecipientClick = {}
+        )
     }
 }
 

@@ -22,4 +22,5 @@ object Drawable {
     val arrowLeft: Int = R.drawable.arrow_left
     val close: Int = R.drawable.close
     val document: Int = R.drawable.document
+    val waveLogo: Int = R.drawable.wave_logo
 }
