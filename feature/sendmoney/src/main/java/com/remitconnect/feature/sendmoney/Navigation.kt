@@ -4,9 +4,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.navigation
+import com.remitconnect.feature.sendmoney.recipients.chooseRecipient
+import com.remitconnect.feature.sendmoney.recipients.navigateToChooseRecipient
 import com.remitconnect.feature.sendmoney.sendoptions.SendMoneyOptionsRoute
 import com.remitconnect.feature.sendmoney.sendoptions.sendMoneyOptions
-import com.remitconnect.feature.sendmoney.sendtoafrica.SendToAfricaOptionsRoute
 import com.remitconnect.feature.sendmoney.sendtoafrica.navigateToSendToAfricaOptions
 import com.remitconnect.feature.sendmoney.sendtoafrica.sendToAfricaOptions
 import kotlinx.serialization.Serializable
@@ -28,7 +29,12 @@ fun NavGraphBuilder.sendMoney(
             onSendToAfricaClick = navController::navigateToSendToAfricaOptions
         )
         sendToAfricaOptions(
-            onNavigateBack = onNavigateBack
+            onNavigateBack = onNavigateBack,
+            onSendWithMobileWallet = navController::navigateToChooseRecipient
+        )
+        chooseRecipient(
+            onNavigateBack = onNavigateBack,
+            onNavigateToChooseWallet = {}
         )
     }
 }

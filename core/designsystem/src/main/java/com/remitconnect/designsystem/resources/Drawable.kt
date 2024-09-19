@@ -21,4 +21,5 @@ object Drawable {
     val world: Int = R.drawable.world
     val arrowLeft: Int = R.drawable.arrow_left
     val close: Int = R.drawable.close
+    val document: Int = R.drawable.document
 }

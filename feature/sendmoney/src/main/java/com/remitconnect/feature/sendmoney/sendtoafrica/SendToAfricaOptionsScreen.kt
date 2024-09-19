@@ -31,6 +31,7 @@ import com.remitconnect.designsystem.views.MenuItemView
 @Composable
 internal fun SendToAfricaOptionsScreen(
     onBackClick: () -> Unit,
+    onMobileWalletClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -41,6 +42,7 @@ internal fun SendToAfricaOptionsScreen(
                 title = { },
                 navigationIcon = {
                     Surface(
+                        modifier = Modifier.padding(start = 8.dp),
                         onClick = onBackClick,
                         shape = MaterialTheme.shapes.medium,
                         color = MaterialTheme.colorScheme.surfaceGray
@@ -82,7 +84,7 @@ internal fun SendToAfricaOptionsScreen(
                 title = {
                     Text(text = "Mobile wallets")
                 },
-                onClick = {},
+                onClick = onMobileWalletClick,
             )
             HorizontalDivider(thickness = 0.5.dp)
             MenuItemView(
@@ -106,6 +108,6 @@ internal fun SendToAfricaOptionsScreen(
 @Composable
 private fun SendToAfricaOptionsScreenPreview() {
     RemitConnectTheme {
-        SendToAfricaOptionsScreen(onBackClick = {})
+        SendToAfricaOptionsScreen(onBackClick = {}, onMobileWalletClick = {})
     }
 }

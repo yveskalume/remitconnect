@@ -42,6 +42,7 @@ internal fun SendMoneyOptionsScreen(
                 title = { },
                 actions = {
                     Surface(
+                        modifier = Modifier.padding(end = 8.dp),
                         onClick = onCloseClick,
                         shape = MaterialTheme.shapes.medium,
                         color = MaterialTheme.colorScheme.surfaceGray

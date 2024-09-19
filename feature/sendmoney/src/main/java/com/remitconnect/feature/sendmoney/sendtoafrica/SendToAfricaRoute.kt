@@ -14,11 +14,13 @@ internal fun NavHostController.navigateToSendToAfricaOptions(navOptions: NavOpti
 }
 
 internal fun NavGraphBuilder.sendToAfricaOptions(
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onSendWithMobileWallet: () -> Unit
 ) {
     composable<SendToAfricaOptionsRoute> {
         SendToAfricaOptionsScreen(
-            onBackClick = onNavigateBack
+            onBackClick = onNavigateBack,
+            onMobileWalletClick = onSendWithMobileWallet,
         )
     }
 }
