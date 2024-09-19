@@ -8,7 +8,6 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.navOptions
 import com.remitconnect.android.navigation.BottomNavDestination
 import com.remitconnect.feature.home.navigateToHome
 import com.remitconnect.feature.sendmoney.navigateToSendMoney
@@ -43,30 +42,9 @@ class AppUiState(
 
 
     fun navigateToBottomNavDestination(destination: BottomNavDestination) {
-        val navOptions = navOptions {
-            /**
-             * Pop up to the start destination of the graph to
-             * avoid building up a large stack of destinations
-             * on the back stack as users select items
-             */
-            navController.graph.startDestinationRoute?.let {
-                popUpTo(it) {
-                    saveState = true
-                }
-            }
-            /**
-             * Avoid multiple copies of the same destination when reselecting the same item
-             */
-            launchSingleTop = true
-            /**
-             * Restore state when reselecting a previously selected item
-             */
-            restoreState = true
-        }
-
         when (destination) {
-            BottomNavDestination.Home -> navController.navigateToHome(navOptions)
-            BottomNavDestination.SendMoney -> navController.navigateToSendMoney(navOptions)
+            BottomNavDestination.Home -> navController.navigateToHome()
+            BottomNavDestination.SendMoney -> navController.navigateToSendMoney()
 
             BottomNavDestination.Card -> {
                 //TODO()

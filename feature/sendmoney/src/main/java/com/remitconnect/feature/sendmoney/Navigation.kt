@@ -3,6 +3,7 @@ package com.remitconnect.feature.sendmoney
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
+import androidx.navigation.navOptions
 import androidx.navigation.navigation
 import com.remitconnect.feature.sendmoney.mobilewallets.chooseMobileWallet
 import com.remitconnect.feature.sendmoney.mobilewallets.navigateToChooseMobileWallet
@@ -49,10 +50,20 @@ fun NavGraphBuilder.sendMoney(
         )
         sendMoneyConfirmation(
             onBackClick = onNavigateBack,
-            onContinueClick = navController::navigateToSendSuccess
+            onContinueClick = {
+                val navOptions = navOptions {
+                    navController.graph.startDestinationRoute?.let {
+                        popUpTo(it)
+                    }
+                }
+                navController.navigateToSendSuccess(navOptions)
+            }
         )
         sendSuccess(
-            onNavigateToHome = onNavigateToHome
+            onNavigateToHome = {
+                onNavigateToHome()
+                navController.popBackStack()
+            }
         )
     }
 }
