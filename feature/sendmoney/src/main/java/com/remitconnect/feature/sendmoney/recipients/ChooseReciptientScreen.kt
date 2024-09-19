@@ -1,6 +1,9 @@
 package com.remitconnect.feature.sendmoney.recipients
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -69,6 +72,10 @@ fun ChooseRecipientScreen(
     onBackClick: () -> Unit,
     onContinueClick: () -> Unit
 ) {
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -95,34 +102,38 @@ fun ChooseRecipientScreen(
             )
         },
         bottomBar = {
-            Surface(
-                color = MaterialTheme.colorScheme.background,
-                shadowElevation = 8.dp,
-                modifier = Modifier.fillMaxWidth()
+            AnimatedVisibility(
+                visible = selectedTabIndex == 1,
+                enter = slideInVertically { it / 2 },
+                exit = slideOutVertically { it / 2 },
             ) {
-                Button(
-                    onClick = {},
-                    modifier = Modifier
-                        .padding(bottom = 32.dp, top = 16.dp)
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .padding(horizontal = 32.dp),
-                    shape = MaterialTheme.shapes.medium,
+                Surface(
+                    color = MaterialTheme.colorScheme.background,
+                    shadowElevation = 8.dp,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(
-                        text = "Continue",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Button(
+                        onClick = {},
+                        modifier = Modifier
+                            .padding(bottom = 32.dp, top = 16.dp)
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .padding(horizontal = 32.dp),
+                        shape = MaterialTheme.shapes.medium,
+                    ) {
+                        Text(
+                            text = "Continue",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }
     ) { contentPadding ->
         val columnScrollState = rememberScrollState()
 
-        var selectedTabIndex by remember {
-            mutableIntStateOf(0)
-        }
+
 
         Column(
             modifier = Modifier
