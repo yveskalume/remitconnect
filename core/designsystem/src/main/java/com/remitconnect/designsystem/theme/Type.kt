@@ -18,6 +18,12 @@ val outFitFontFamily = FontFamily(
 )
 
 val Typography = Typography(
+    headlineLarge = TextStyle(
+        fontFamily = outFitFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 28.sp,
+        lineHeight = 36.4.sp,
+    ),
     headlineMedium = TextStyle(
         fontFamily = outFitFontFamily,
         fontWeight = FontWeight.SemiBold,

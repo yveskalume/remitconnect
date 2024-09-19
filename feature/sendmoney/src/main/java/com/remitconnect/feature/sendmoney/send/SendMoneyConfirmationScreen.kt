@@ -49,7 +49,8 @@ import com.remitconnect.designsystem.views.HorizontalDashedDivider
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SendMoneyConfirmationScreen(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onContinueClick: () -> Unit
 ) {
 
     var isDialogVisible by remember {
@@ -127,6 +128,7 @@ internal fun SendMoneyConfirmationScreen(
             FeesSection()
             ConfirmationDialog(
                 isVisible = isDialogVisible,
+                onContinueClick = onContinueClick,
                 onDismissRequest = {
                     isDialogVisible = false
                 }
@@ -324,6 +326,7 @@ private fun FeesSection() {
 @Composable
 private fun ConfirmationDialog(
     isVisible: Boolean,
+    onContinueClick: () -> Unit,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -388,7 +391,7 @@ private fun ConfirmationDialog(
 
 
                 Button(
-                    onClick = {},
+                    onClick = onContinueClick,
                     modifier = Modifier
                         .padding(vertical = 32.dp)
                         .fillMaxWidth()
@@ -411,7 +414,8 @@ private fun ConfirmationDialog(
 private fun SendMoneyConfirmationScreenPreview() {
     RemitConnectTheme {
         SendMoneyConfirmationScreen(
-            onBackClick = {}
+            onBackClick = {},
+            onContinueClick = {}
         )
     }
 }

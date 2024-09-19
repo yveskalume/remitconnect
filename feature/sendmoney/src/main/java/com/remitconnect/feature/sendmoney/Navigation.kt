@@ -9,11 +9,13 @@ import com.remitconnect.feature.sendmoney.mobilewallets.navigateToChooseMobileWa
 import com.remitconnect.feature.sendmoney.recipients.chooseRecipient
 import com.remitconnect.feature.sendmoney.recipients.navigateToChooseRecipient
 import com.remitconnect.feature.sendmoney.send.navigateToSendMoneyConfirmation
-import com.remitconnect.feature.sendmoney.send.sendMoneyConfirmationScreen
+import com.remitconnect.feature.sendmoney.send.sendMoneyConfirmation
 import com.remitconnect.feature.sendmoney.sendoptions.SendMoneyOptionsRoute
 import com.remitconnect.feature.sendmoney.sendoptions.sendMoneyOptions
 import com.remitconnect.feature.sendmoney.sendtoafrica.navigateToSendToAfricaOptions
 import com.remitconnect.feature.sendmoney.sendtoafrica.sendToAfricaOptions
+import com.remitconnect.feature.sendmoney.success.navigateToSendSuccess
+import com.remitconnect.feature.sendmoney.success.sendSuccess
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -25,7 +27,8 @@ fun NavHostController.navigateToSendMoney(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.sendMoney(
     navController: NavHostController,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToHome: () -> Unit
 ) {
     navigation<SendMoneyFeatureRoute>(startDestination = SendMoneyOptionsRoute) {
         sendMoneyOptions(
@@ -44,8 +47,12 @@ fun NavGraphBuilder.sendMoney(
             onNavigateBack = onNavigateBack,
             onNavigateToSendMoneyConfirmation = navController::navigateToSendMoneyConfirmation
         )
-        sendMoneyConfirmationScreen(
-            onBackClick = onNavigateBack
+        sendMoneyConfirmation(
+            onBackClick = onNavigateBack,
+            onContinueClick = navController::navigateToSendSuccess
+        )
+        sendSuccess(
+            onNavigateToHome = onNavigateToHome
         )
     }
 }

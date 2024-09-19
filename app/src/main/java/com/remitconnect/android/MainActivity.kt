@@ -20,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,30 +41,32 @@ class MainActivity : ComponentActivity() {
             RemitConnectTheme {
                 val navController = rememberNavController()
                 val appUiState = rememberAppUiState(navController = navController)
-                Box(Modifier.safeDrawingPadding()) {
-                    Scaffold(
-                        bottomBar = {
-                            if (appUiState.isBottomNavVisible) {
-                                NavigationBar {
-                                    BottomNavDestination.entries.forEach { destination ->
-                                        key(destination.route) {
-                                            CustomNavigationBarItem(
-                                                appUiState = appUiState,
-                                                destination = destination
-                                            )
+                CompositionLocalProvider(LocalAppUiState provides appUiState) {
+                    Box(Modifier.safeDrawingPadding()) {
+                        Scaffold(
+                            bottomBar = {
+                                if (appUiState.isBottomNavVisible) {
+                                    NavigationBar {
+                                        BottomNavDestination.entries.forEach { destination ->
+                                            key(destination.route) {
+                                                CustomNavigationBarItem(
+                                                    appUiState = appUiState,
+                                                    destination = destination
+                                                )
+                                            }
                                         }
-                                    }
 
+                                    }
                                 }
                             }
+                        ) { contentPadding ->
+                            MainNavHost(
+                                navController = navController,
+                                modifier = Modifier
+                                    .consumeWindowInsets(contentPadding)
+                                    .padding(contentPadding)
+                            )
                         }
-                    ) { contentPadding ->
-                        MainNavHost(
-                            navController = navController,
-                            modifier = Modifier
-                                .consumeWindowInsets(contentPadding)
-                                .padding(contentPadding)
-                        )
                     }
                 }
             }

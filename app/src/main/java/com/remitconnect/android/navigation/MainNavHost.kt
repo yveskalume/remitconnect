@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.navOptions
 import com.remitconnect.feature.home.HomeRoute
 import com.remitconnect.feature.home.homeRoute
+import com.remitconnect.feature.home.navigateToHome
 import com.remitconnect.feature.sendmoney.sendMoney
 
 @Composable
@@ -19,7 +21,20 @@ fun MainNavHost(
 
         sendMoney(
             navController = navController,
-            onNavigateBack = navController::navigateUp
+            onNavigateBack = navController::navigateUp,
+            onNavigateToHome = {
+                navController.navigateToHome(
+                    navOptions {
+                        navController.graph.startDestinationRoute?.let {
+                            popUpTo(it) {
+                                saveState = true
+                            }
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                )
+            }
         )
     }
 }

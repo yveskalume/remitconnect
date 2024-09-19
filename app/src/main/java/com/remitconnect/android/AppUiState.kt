@@ -1,7 +1,9 @@
 package com.remitconnect.android
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
@@ -80,3 +82,6 @@ class AppUiState(
         }
     }
 }
+
+val LocalAppUiState: ProvidableCompositionLocal<AppUiState> =
+    compositionLocalOf { error("CompositionLocal LocalAppUiState not present") }

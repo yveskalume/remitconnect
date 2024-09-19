@@ -23,4 +23,5 @@ object Drawable {
     val close: Int = R.drawable.close
     val document: Int = R.drawable.document
     val waveLogo: Int = R.drawable.wave_logo
+    val illustration1: Int = R.drawable.illustration1
 }

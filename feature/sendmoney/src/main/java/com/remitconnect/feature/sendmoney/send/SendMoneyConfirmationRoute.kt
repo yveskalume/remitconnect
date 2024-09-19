@@ -12,12 +12,14 @@ internal fun NavHostController.navigateToSendMoneyConfirmation() {
     navigate(SendMoneyConfirmationRoute)
 }
 
-internal fun NavGraphBuilder.sendMoneyConfirmationScreen(
-    onBackClick: () -> Unit
+internal fun NavGraphBuilder.sendMoneyConfirmation(
+    onBackClick: () -> Unit,
+    onContinueClick: () -> Unit
 ) {
     composable<SendMoneyConfirmationRoute> {
         SendMoneyConfirmationScreen(
-            onBackClick = onBackClick
+            onBackClick = onBackClick,
+            onContinueClick = onContinueClick
         )
     }
 }
