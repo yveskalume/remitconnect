@@ -25,6 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -42,10 +43,12 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,6 +61,7 @@ import com.remitconnect.designsystem.theme.surfaceGray
 import com.remitconnect.designsystem.views.ContactItemView
 import com.remitconnect.designsystem.views.SearchTextFieldView
 import com.remitconnect.designsystem.views.TabView
+import com.remitconnect.domain.model.Recipient
 import com.remitconnect.feature.sendmoney.R
 
 
@@ -69,10 +73,11 @@ private val recipientTabs = mapOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ChooseRecipientScreen(
-    onBackClick: () -> Unit,
-    onContinueClick: () -> Unit
+    searchText: String,
+    onAction: (ChooseRecipientAction) -> Unit,
+    uiState: ChooseRecipientUiState
 ) {
-    var selectedTabIndex by remember {
+    var selectedTabIndex by rememberSaveable {
         mutableIntStateOf(0)
     }
 
@@ -86,7 +91,7 @@ internal fun ChooseRecipientScreen(
                 navigationIcon = {
                     Surface(
                         modifier = Modifier.padding(start = 8.dp),
-                        onClick = onBackClick,
+                        onClick = { onAction(ChooseRecipientAction.BackActionClick) },
                         shape = MaterialTheme.shapes.medium,
                         color = MaterialTheme.colorScheme.surfaceGray
                     ) {
@@ -113,7 +118,15 @@ internal fun ChooseRecipientScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Button(
-                        onClick = onContinueClick,
+                        onClick = {
+                            onAction(
+                                ChooseRecipientAction.CreateNewRecipient(
+                                    "",
+                                    "",
+                                    ""
+                                )
+                            )
+                        },
                         modifier = Modifier
                             .padding(bottom = 32.dp, top = 16.dp)
                             .fillMaxWidth()
@@ -168,9 +181,10 @@ internal fun ChooseRecipientScreen(
             }
 
             SearchTextFieldView(
-                value = text,
+                value = searchText,
                 onValueChange = {
                     text = it
+                    onAction(ChooseRecipientAction.SearchTextChange(it))
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -184,13 +198,39 @@ internal fun ChooseRecipientScreen(
                 }
             )
 
-            AnimatedContent(targetState = selectedTabIndex, label = "") { index ->
-                when (index) {
-                    0 -> PreviousRecipientsTabContent(
-                        onRecipientClick = onContinueClick
+            when (uiState) {
+                is ChooseRecipientUiState.Error -> {
+                    Text(
+                        text = uiState.message,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
+                }
 
-                    1 -> NewRecipientTabContent()
+                is ChooseRecipientUiState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(top = 24.dp)
+                    )
+                }
+
+                is ChooseRecipientUiState.Success -> {
+                    AnimatedContent(targetState = selectedTabIndex, label = "") { index ->
+                        when (index) {
+                            0 -> PreviousRecipientsTabContent(
+                                recipients = uiState.recipients,
+                                onRecipientClick = { recipient: Recipient ->
+                                    onAction(
+                                        ChooseRecipientAction.SelectRecipient(
+                                            recipient
+                                        )
+                                    )
+                                }
+                            )
+
+                            1 -> NewRecipientTabContent()
+                        }
+                    }
                 }
             }
 
@@ -200,28 +240,48 @@ internal fun ChooseRecipientScreen(
 
 @Composable
 private fun PreviousRecipientsTabContent(
-    onRecipientClick: () -> Unit,
+    recipients: List<Recipient>,
+    onRecipientClick: (Recipient) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
-        Text(
-            text = "Contacts on your phone",
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier
-                .padding(top = 32.dp, bottom = 34.dp)
-                .padding(horizontal = 24.dp),
-            fontWeight = FontWeight.Medium
-        )
+        if (recipients.isNotEmpty()) {
+            Text(
+                text = "Contacts on your phone",
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier
+                    .padding(top = 32.dp, bottom = 34.dp)
+                    .padding(horizontal = 24.dp),
+                fontWeight = FontWeight.Medium
+            )
 
-        (1..10).forEach {
-            key(it) {
-                HorizontalDivider(thickness = 0.4.dp)
-                ContactItemView(onClick = onRecipientClick, modifier = Modifier.padding(horizontal = 24.dp))
+            recipients.forEach { recipient ->
+                key(recipient.id) {
+                    HorizontalDivider(thickness = 0.4.dp)
+                    ContactItemView(
+                        name = recipient.name,
+                        mobileWallet = recipient.mobileWallet,
+                        onClick = { onRecipientClick(recipient) },
+                        modifier = Modifier.padding(horizontal = 24.dp)
+                    )
+                }
             }
+            HorizontalDivider(thickness = 0.4.dp)
+        } else {
+            Image(
+                painter = painterResource(Drawable.emptyStateIllustration),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .fillMaxWidth()
+                    .padding(top = 48.dp)
+                    .padding(horizontal = 41.dp),
+            )
         }
-        HorizontalDivider(thickness = 0.4.dp)
+
     }
 }
 
@@ -365,8 +425,9 @@ private fun NewRecipientTabContent(modifier: Modifier = Modifier) {
 private fun ChooseRecipientScreenPreview() {
     RemitConnectTheme {
         ChooseRecipientScreen(
-            onBackClick = {},
-            onContinueClick = {}
+            searchText = "",
+            uiState = ChooseRecipientUiState.Loading,
+            onAction = {}
         )
     }
 }
@@ -376,7 +437,8 @@ private fun ChooseRecipientScreenPreview() {
 private fun PreviousRecipientTabContentPreview() {
     RemitConnectTheme {
         PreviousRecipientsTabContent(
-            onRecipientClick = {}
+            onRecipientClick = {},
+            recipients = emptyList()
         )
     }
 }

@@ -24,4 +24,5 @@ object Drawable {
     val document: Int = R.drawable.document
     val waveLogo: Int = R.drawable.wave_logo
     val illustration1: Int = R.drawable.illustration1
+    val emptyStateIllustration: Int = R.drawable.empty_state_illustration
 }

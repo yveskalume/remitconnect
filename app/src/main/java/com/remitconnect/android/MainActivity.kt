@@ -32,7 +32,9 @@ import com.remitconnect.android.navigation.MainNavHost
 import com.remitconnect.designsystem.theme.RemitConnectTheme
 import com.remitconnect.designsystem.theme.Yellow
 import com.remitconnect.designsystem.theme.labelGray
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

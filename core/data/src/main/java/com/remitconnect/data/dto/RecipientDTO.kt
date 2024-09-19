@@ -12,7 +12,7 @@ internal data class RecipientDTO(
     val name: String,
     @SerialName("country")
     val country: String,
-    @SerialName("mobileWallet")
+    @SerialName("mobile_wallet")
     val mobileWallet: String
 )
 

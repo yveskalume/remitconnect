@@ -24,6 +24,8 @@ import com.remitconnect.designsystem.theme.surfaceGray
 
 @Composable
 fun ContactItemView(
+    name: String,
+    mobileWallet: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -46,9 +48,9 @@ fun ContactItemView(
 
         }
         Column {
-            Text(text = "Ralph Edwards", style = MaterialTheme.typography.bodyMedium)
+            Text(text = name, style = MaterialTheme.typography.bodyMedium)
             Text(
-                text = "+229 98 767 289",
+                text = mobileWallet,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.labelGray
             )
@@ -67,6 +69,8 @@ private fun ContactItemPreview() {
     RemitConnectTheme {
         Column {
             ContactItemView(
+                name = "John Doe",
+                mobileWallet = "Wave",
                 modifier = Modifier.padding(horizontal = 24.dp),
                 onClick = {}
             )

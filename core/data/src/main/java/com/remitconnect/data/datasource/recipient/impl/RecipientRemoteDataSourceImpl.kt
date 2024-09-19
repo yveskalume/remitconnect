@@ -2,7 +2,6 @@ package com.remitconnect.data.datasource.recipient.impl
 
 import com.remitconnect.data.datasource.recipient.RecipientRemoteDataSource
 import com.remitconnect.data.dto.RecipientDTO
-import com.remitconnect.data.dto.response.GetCountriesResponse
 import com.remitconnect.data.dto.response.GetRecipientsResponse
 import com.remitconnect.data.util.HttpException
 import com.remitconnect.data.util.ServerEndpoints
@@ -19,10 +18,12 @@ internal class RecipientRemoteDataSourceImpl @Inject constructor(
         return runCatching {
             val response = httpClient.get(ServerEndpoints.RECIPIENTS)
             if (response.status.isSuccess()) {
-                response.body<GetRecipientsResponse>().recipients
+                response.body<GetRecipientsResponse>()
             } else {
-                throw HttpException("Une erreur est survenue, veuillez réessayer plus tard")
+                throw HttpException("An error occurred while fetching recipients")
             }
+        }.onSuccess {
+
         }
     }
 }
