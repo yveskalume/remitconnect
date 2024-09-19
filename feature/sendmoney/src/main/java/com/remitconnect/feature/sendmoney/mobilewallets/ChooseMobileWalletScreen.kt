@@ -1,7 +1,6 @@
 package com.remitconnect.feature.sendmoney.mobilewallets
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,14 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -31,13 +26,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.remitconnect.designsystem.resources.Drawable
 import com.remitconnect.designsystem.theme.surfaceGray
-import com.remitconnect.designsystem.views.MenuItemView
 import com.remitconnect.designsystem.views.MobileWalletItemView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChooseMobileWalletScreen(
     onNavigateBack: () -> Unit,
+    onNavigateToSendMoneyConfirmation: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -63,7 +58,7 @@ fun ChooseMobileWalletScreen(
                     }
                 },
 
-            )
+                )
         },
         bottomBar = {
             Surface(
@@ -72,7 +67,7 @@ fun ChooseMobileWalletScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Button(
-                    onClick = {},
+                    onClick = onNavigateToSendMoneyConfirmation,
                     modifier = Modifier
                         .padding(bottom = 32.dp, top = 16.dp)
                         .fillMaxWidth()
@@ -96,7 +91,7 @@ fun ChooseMobileWalletScreen(
                 .consumeWindowInsets(contentPadding)
                 .padding(contentPadding),
             state = lazyListState,
-            contentPadding = PaddingValues(24.dp),
+            contentPadding = PaddingValues(top = 8.dp, bottom = 24.dp, start = 24.dp, end = 24.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             item("title") {

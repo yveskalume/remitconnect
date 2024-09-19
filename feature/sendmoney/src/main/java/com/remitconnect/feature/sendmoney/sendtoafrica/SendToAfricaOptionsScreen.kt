@@ -71,7 +71,9 @@ internal fun SendToAfricaOptionsScreen(
             Text(
                 text = "Send to Africa",
                 style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(24.dp)
+                modifier = Modifier
+                    .padding(bottom = 24.dp, top = 8.dp)
+                    .padding(horizontal = 24.dp)
             )
             HorizontalDivider(thickness = 0.5.dp)
             MenuItemView(

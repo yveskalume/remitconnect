@@ -142,13 +142,13 @@ fun ChooseRecipientScreen(
                 .wrapContentHeight()
                 .consumeWindowInsets(contentPadding)
                 .padding(contentPadding)
-                .padding(vertical = 24.dp)
+                .padding(bottom = 24.dp)
         ) {
             Text(
                 text = "Who are you sending to?",
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier
-                    .padding(bottom = 24.dp)
+                    .padding(bottom = 24.dp, top = 8.dp)
                     .padding(horizontal = 24.dp)
             )
 

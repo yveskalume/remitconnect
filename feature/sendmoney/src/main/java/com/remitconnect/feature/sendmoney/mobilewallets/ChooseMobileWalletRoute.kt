@@ -14,11 +14,13 @@ fun NavHostController.navigateToChooseMobileWallet(navOptions: NavOptions? = nul
 }
 
 fun NavGraphBuilder.chooseMobileWallet(
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToSendMoneyConfirmation: () -> Unit
 ) {
     composable<ChooseMobileWalletRoute> {
         ChooseMobileWalletScreen(
-            onNavigateBack = onNavigateBack
+            onNavigateBack = onNavigateBack,
+            onNavigateToSendMoneyConfirmation = onNavigateToSendMoneyConfirmation
         )
     }
 }

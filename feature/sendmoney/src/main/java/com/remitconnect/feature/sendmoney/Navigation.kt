@@ -8,6 +8,8 @@ import com.remitconnect.feature.sendmoney.mobilewallets.chooseMobileWallet
 import com.remitconnect.feature.sendmoney.mobilewallets.navigateToChooseMobileWallet
 import com.remitconnect.feature.sendmoney.recipients.chooseRecipient
 import com.remitconnect.feature.sendmoney.recipients.navigateToChooseRecipient
+import com.remitconnect.feature.sendmoney.send.navigateToSendMoneyConfirmation
+import com.remitconnect.feature.sendmoney.send.sendMoneyConfirmationScreen
 import com.remitconnect.feature.sendmoney.sendoptions.SendMoneyOptionsRoute
 import com.remitconnect.feature.sendmoney.sendoptions.sendMoneyOptions
 import com.remitconnect.feature.sendmoney.sendtoafrica.navigateToSendToAfricaOptions
@@ -39,7 +41,11 @@ fun NavGraphBuilder.sendMoney(
             onNavigateToChooseWallet = navController::navigateToChooseMobileWallet
         )
         chooseMobileWallet(
-            onNavigateBack = onNavigateBack
+            onNavigateBack = onNavigateBack,
+            onNavigateToSendMoneyConfirmation = navController::navigateToSendMoneyConfirmation
+        )
+        sendMoneyConfirmationScreen(
+            onBackClick = onNavigateBack
         )
     }
 }
