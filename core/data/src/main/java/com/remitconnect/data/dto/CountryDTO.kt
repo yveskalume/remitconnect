@@ -10,7 +10,7 @@ internal data class CountryDTO(
     val id: String,
     @SerialName("name")
     val name: String,
-    @SerialName("currencyCode")
+    @SerialName("currency_code")
     val currencyCode: String
 )
 

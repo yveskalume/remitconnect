@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.remitconnect.designsystem.theme.RemitConnectTheme
+import com.remitconnect.designsystem.theme.iconBackground
 import com.remitconnect.designsystem.theme.labelGray
 import com.remitconnect.designsystem.theme.surfaceGray
 
@@ -46,7 +47,7 @@ fun ContactItemView(
                 .padding(end = 8.dp)
                 .size(40.dp)
                 .clip(MaterialTheme.shapes.small)
-                .background(MaterialTheme.colorScheme.surfaceGray),
+                .background(MaterialTheme.colorScheme.iconBackground),
             contentAlignment = Alignment.Center
         ) {
             Text(

@@ -12,9 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,13 +33,17 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.remitconnect.designsystem.resources.Drawable
@@ -49,11 +56,13 @@ import com.remitconnect.designsystem.views.HorizontalDashedDivider
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SendMoneyConfirmationScreen(
-    onBackClick: () -> Unit,
-    onContinueClick: () -> Unit
+    amountText: String,
+    uiState: SendMoneyConfirmationUiState,
+    isProcessing: Boolean,
+    onAction: (SendMoneyConfirmationAction) -> Unit
 ) {
 
-    var isDialogVisible by remember {
+    var isDialogVisible by rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -67,7 +76,7 @@ internal fun SendMoneyConfirmationScreen(
                 navigationIcon = {
                     Surface(
                         modifier = Modifier.padding(start = 8.dp),
-                        onClick = onBackClick,
+                        onClick = { onAction(SendMoneyConfirmationAction.NavigateBack) },
                         shape = MaterialTheme.shapes.medium,
                         color = MaterialTheme.colorScheme.surfaceGray
                     ) {
@@ -89,6 +98,7 @@ internal fun SendMoneyConfirmationScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Button(
+                    enabled = !isProcessing && uiState is SendMoneyConfirmationUiState.Success && uiState.canSend,
                     onClick = { isDialogVisible = true },
                     modifier = Modifier
                         .padding(bottom = 32.dp, top = 16.dp)
@@ -123,22 +133,49 @@ internal fun SendMoneyConfirmationScreen(
                 modifier = Modifier
                     .padding(bottom = 24.dp, top = 8.dp)
             )
-            AmountSection()
-            RemittanceInfoSection()
-            FeesSection()
-            ConfirmationDialog(
-                isVisible = isDialogVisible,
-                onContinueClick = onContinueClick,
-                onDismissRequest = {
-                    isDialogVisible = false
+            when (uiState) {
+                is SendMoneyConfirmationUiState.Error -> {
+                    Text(
+                        text = uiState.message,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
                 }
-            )
+
+                SendMoneyConfirmationUiState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                }
+
+                is SendMoneyConfirmationUiState.Success -> {
+                    AmountSection(
+                        amountText = amountText,
+                        onTextChange = { onAction(SendMoneyConfirmationAction.AmountChanged(it)) }
+                    )
+                    RemittanceInfoSection()
+                    FeesSection(uiState = uiState)
+                }
+            }
+            if (uiState is SendMoneyConfirmationUiState.Success) {
+                ConfirmationDialog(
+                    uiState = uiState,
+                    isVisible = isDialogVisible,
+                    onContinueClick = { onAction(SendMoneyConfirmationAction.Confirm) },
+                    onDismissRequest = {
+                        isDialogVisible = false
+                    }
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun AmountSection() {
+private fun AmountSection(
+    amountText: String,
+    onTextChange: (String) -> Unit
+) {
     Text(
         text = "How much are you sending ?",
         style = MaterialTheme.typography.bodyMedium,
@@ -146,12 +183,14 @@ private fun AmountSection() {
             .padding(bottom = 8.dp)
     )
 
+    val softKeyboardController = LocalSoftwareKeyboardController.current
+
     OutlinedCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         TextField(
-            value = "00",
-            onValueChange = {},
+            value = amountText,
+            onValueChange = onTextChange,
             colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = Color.Transparent,
                 focusedContainerColor = Color.Transparent,
@@ -159,6 +198,9 @@ private fun AmountSection() {
                 focusedIndicatorColor = Color.Transparent,
             ),
             textStyle = MaterialTheme.typography.bodyLarge,
+            placeholder = {
+                Text("00", style = MaterialTheme.typography.bodyLarge)
+            },
             trailingIcon = {
                 Text(
                     text = "EUR",
@@ -166,6 +208,16 @@ private fun AmountSection() {
                     color = MaterialTheme.colorScheme.labelGray
                 )
             },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
+            singleLine = true,
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    softKeyboardController?.hide()
+                }
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(end = 8.dp)
@@ -218,12 +270,14 @@ private fun RemittanceInfoSection() {
         color = Color(0xFF1B98E0),
         modifier = Modifier
             .padding(bottom = 32.dp)
-            .clickable {  }
+            .clickable { }
     )
 }
 
 @Composable
-private fun FeesSection() {
+private fun FeesSection(
+    uiState: SendMoneyConfirmationUiState.Success
+) {
     Text(
         text = "Fees breakdown",
         style = MaterialTheme.typography.bodyMedium,
@@ -245,7 +299,7 @@ private fun FeesSection() {
             color = MaterialTheme.colorScheme.labelGray
         )
         Text(
-            text = "0.0 EUR",
+            text = "${uiState.monecoFees} EUR",
             style = MaterialTheme.typography.bodySmall,
         )
     }
@@ -262,7 +316,7 @@ private fun FeesSection() {
             color = MaterialTheme.colorScheme.labelGray
         )
         Text(
-            text = "0.0 EUR",
+            text = "${uiState.transferFees} EUR",
             style = MaterialTheme.typography.bodySmall,
         )
     }
@@ -279,7 +333,7 @@ private fun FeesSection() {
             color = MaterialTheme.colorScheme.labelGray
         )
         Text(
-            text = "0.0 EUR",
+            text = "${uiState.conversionRate} ${uiState.recipientCurrency}",
             style = MaterialTheme.typography.bodySmall,
         )
     }
@@ -296,7 +350,7 @@ private fun FeesSection() {
             color = MaterialTheme.colorScheme.labelGray
         )
         Text(
-            text = "0.0 EUR",
+            text = "${uiState.totalInActualCurrency} EUR",
             style = MaterialTheme.typography.bodySmall,
         )
     }
@@ -311,13 +365,15 @@ private fun FeesSection() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "You’ll spend in total",
+            text = "Recipient gets",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.labelGray
         )
         Text(
-            text = "0.0 EUR",
+            text = "${uiState.amountGotByRecipient} ${uiState.recipientCurrency}",
             style = MaterialTheme.typography.bodyLarge,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
@@ -325,6 +381,7 @@ private fun FeesSection() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ConfirmationDialog(
+    uiState: SendMoneyConfirmationUiState.Success,
     isVisible: Boolean,
     onContinueClick: () -> Unit,
     onDismissRequest: () -> Unit,
@@ -358,7 +415,7 @@ private fun ConfirmationDialog(
                     modifier = Modifier.padding(top = 16.dp)
                 )
                 Text(
-                    text = "57.100 XOF",
+                    text = "${uiState.amountGotByRecipient} ${uiState.recipientCurrency}",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(top = 4.dp)
                 )
@@ -370,7 +427,7 @@ private fun ConfirmationDialog(
                     modifier = Modifier.padding(top = 16.dp)
                 )
                 Text(
-                    text = "Esther Howard",
+                    text = uiState.recipient.name,
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(top = 4.dp)
@@ -383,7 +440,7 @@ private fun ConfirmationDialog(
                     modifier = Modifier.padding(top = 16.dp)
                 )
                 Text(
-                    text = "MTN Mobile Money : +229 98 767 289",
+                    text = uiState.mobileWallet.name,
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(top = 4.dp)
@@ -414,8 +471,10 @@ private fun ConfirmationDialog(
 private fun SendMoneyConfirmationScreenPreview() {
     RemitConnectTheme {
         SendMoneyConfirmationScreen(
-            onBackClick = {},
-            onContinueClick = {}
+            uiState = SendMoneyConfirmationUiState.Loading,
+            amountText = "100",
+            isProcessing = false,
+            onAction = {}
         )
     }
 }

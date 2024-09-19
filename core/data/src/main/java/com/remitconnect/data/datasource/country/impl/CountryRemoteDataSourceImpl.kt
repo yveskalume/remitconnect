@@ -18,7 +18,7 @@ internal class CountryRemoteDataSourceImpl @Inject constructor(
         return runCatching {
             val response = httpClient.get(ServerEndpoints.COUNTRIES)
             if (response.status.isSuccess()) {
-                response.body<GetCountriesResponse>().countries
+                response.body<GetCountriesResponse>()
             } else {
                 throw HttpException("An error occurred while fetching countries")
             }
