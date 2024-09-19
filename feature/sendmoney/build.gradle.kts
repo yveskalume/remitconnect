@@ -40,6 +40,9 @@ dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.core.data)
 
+    testImplementation(projects.core.testing)
+    androidTestImplementation(projects.core.testing)
+
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)

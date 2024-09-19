@@ -1,4 +1,4 @@
-package com.remitconnect.feature.sendmoney
+package com.remitconnect.testing
 
 import org.junit.Test
 
