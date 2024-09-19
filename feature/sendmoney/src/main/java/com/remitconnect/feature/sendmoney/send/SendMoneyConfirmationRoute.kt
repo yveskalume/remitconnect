@@ -6,10 +6,10 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal object SendMoneyConfirmationRoute
+internal data class SendMoneyConfirmationRoute(val recipientId: String,val mobileWalletId: String)
 
-internal fun NavHostController.navigateToSendMoneyConfirmation() {
-    navigate(SendMoneyConfirmationRoute)
+internal fun NavHostController.navigateToSendMoneyConfirmation(recipientId: String, mobileWalletId: String) {
+    navigate(SendMoneyConfirmationRoute(recipientId,mobileWalletId))
 }
 
 internal fun NavGraphBuilder.sendMoneyConfirmation(

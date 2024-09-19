@@ -1,5 +1,8 @@
 package com.remitconnect.feature.sendmoney.mobilewallets
 
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
@@ -18,12 +21,23 @@ internal fun NavHostController.navigateToChooseMobileWallet(
 
 internal fun NavGraphBuilder.chooseMobileWallet(
     onNavigateBack: () -> Unit,
-    onNavigateToSendMoneyConfirmation: () -> Unit
+    onNavigateToSendMoneyConfirmation: (recipientId: String, mobileWalletId: String) -> Unit
 ) {
     composable<ChooseMobileWalletRoute> {
+        val viewModel = hiltViewModel<ChooseMobileWalletViewModel>()
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         ChooseMobileWalletScreen(
-            onNavigateBack = onNavigateBack,
-            onNavigateToSendMoneyConfirmation = onNavigateToSendMoneyConfirmation
+            uiState = uiState,
+            onAction = { action ->
+                when (action) {
+                    is ChooseMobileWalletAction.Continue -> onNavigateToSendMoneyConfirmation(
+                        action.recipientId,
+                        action.mobileWalletId
+                    )
+
+                    ChooseMobileWalletAction.NavigateBack -> onNavigateBack()
+                }
+            }
         )
     }
 }

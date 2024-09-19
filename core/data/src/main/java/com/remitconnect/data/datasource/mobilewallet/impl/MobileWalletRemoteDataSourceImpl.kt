@@ -2,7 +2,6 @@ package com.remitconnect.data.datasource.mobilewallet.impl
 
 import com.remitconnect.data.datasource.mobilewallet.MobileWalletRemoteDataSource
 import com.remitconnect.data.dto.MobileWalletDTO
-import com.remitconnect.data.dto.response.GetCountriesResponse
 import com.remitconnect.data.dto.response.GetMobileWalletResponse
 import com.remitconnect.data.util.HttpException
 import com.remitconnect.data.util.ServerEndpoints
@@ -19,7 +18,7 @@ internal class MobileWalletRemoteDataSourceImpl @Inject constructor(
         return runCatching {
             val response = httpClient.get(ServerEndpoints.WALLETS)
             if (response.status.isSuccess()) {
-                response.body<GetMobileWalletResponse>().wallets
+                response.body<GetMobileWalletResponse>()
             } else {
                 throw HttpException("Une erreur est survenue, veuillez réessayer plus tard")
             }

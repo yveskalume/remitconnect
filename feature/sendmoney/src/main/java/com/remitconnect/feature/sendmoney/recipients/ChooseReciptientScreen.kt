@@ -202,7 +202,8 @@ internal fun ChooseRecipientScreen(
                 is ChooseRecipientUiState.Error -> {
                     Text(
                         text = uiState.message,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        modifier = Modifier.padding(24.dp).align(Alignment.CenterHorizontally),
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
 
@@ -252,7 +253,7 @@ private fun PreviousRecipientsTabContent(
                 text = "Contacts on your phone",
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier
-                    .padding(top = 32.dp, bottom = 34.dp)
+                    .padding(top = 32.dp, bottom = 16.dp)
                     .padding(horizontal = 24.dp),
                 fontWeight = FontWeight.Medium
             )

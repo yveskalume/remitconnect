@@ -20,7 +20,7 @@ internal class CountryRemoteDataSourceImpl @Inject constructor(
             if (response.status.isSuccess()) {
                 response.body<GetCountriesResponse>().countries
             } else {
-                throw HttpException("Une erreur est survenue, veuillez réessayer plus tard")
+                throw HttpException("An error occurred while fetching countries")
             }
         }
     }

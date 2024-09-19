@@ -22,8 +22,6 @@ internal class RecipientRemoteDataSourceImpl @Inject constructor(
             } else {
                 throw HttpException("An error occurred while fetching recipients")
             }
-        }.onSuccess {
-
         }
     }
 }
