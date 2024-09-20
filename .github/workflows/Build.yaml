@@ -44,14 +44,6 @@ jobs:
           name: unit-test-results
           path: '**/build/test-results/test*UnitTest/**.xml'
 
-      - name: Build APK
-        run: ./gradlew assembleDebug --stacktrace
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: remittance-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
-
   deploy:
     name: Deploy apk
     needs: build
