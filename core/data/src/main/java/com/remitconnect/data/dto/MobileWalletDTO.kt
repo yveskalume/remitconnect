@@ -28,3 +28,20 @@ internal fun MobileWalletDTO.toDomainModel(): MobileWallet {
 internal fun List<MobileWalletDTO>.toDomainModels(): List<MobileWallet> {
     return map { it.toDomainModel() }
 }
+
+/**
+ * Convert a [MobileWallet] to a [MobileWalletDTO]
+ */
+internal fun MobileWallet.toDTO(): MobileWalletDTO {
+    return MobileWalletDTO(
+        id = id,
+        name = name
+    )
+}
+
+/**
+ * Convert a list of [MobileWallet] to a list of [MobileWalletDTO]
+ */
+internal fun List<MobileWallet>.toDTOs(): List<MobileWalletDTO> {
+    return map { it.toDTO() }
+}

@@ -20,7 +20,7 @@ internal class MobileWalletRemoteDataSourceImpl @Inject constructor(
             if (response.status.isSuccess()) {
                 response.body<GetMobileWalletResponse>()
             } else {
-                throw HttpException("Une erreur est survenue, veuillez réessayer plus tard")
+                throw HttpException("An error occurred while fetching mobile wallets")
             }
         }
     }

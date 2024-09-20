@@ -34,3 +34,22 @@ internal fun RecipientDTO.toDomainModel(): Recipient {
 internal fun List<RecipientDTO>.toDomainModels(): List<Recipient> {
     return map { it.toDomainModel() }
 }
+
+/**
+ * Convert a [Recipient] to a [RecipientDTO]
+ */
+internal fun Recipient.toDTO(): RecipientDTO {
+    return RecipientDTO(
+        id = id,
+        name = name,
+        country = country,
+        mobileWallet = mobileWallet
+    )
+}
+
+/**
+ * Convert a list of [Recipient] to a list of [RecipientDTO]
+ */
+internal fun List<Recipient>.toDTOs(): List<RecipientDTO> {
+    return map { it.toDTO() }
+}

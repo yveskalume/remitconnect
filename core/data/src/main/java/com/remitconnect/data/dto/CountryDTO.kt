@@ -31,3 +31,21 @@ internal fun CountryDTO.toDomainModel(): Country {
 internal fun List<CountryDTO>.toDomainModels(): List<Country> {
     return map { it.toDomainModel() }
 }
+
+/**
+ * Convert a [Country] to a [CountryDTO]
+ */
+internal fun Country.toDTO(): CountryDTO {
+    return CountryDTO(
+        id = id,
+        name = name,
+        currencyCode = currencyCode
+    )
+}
+
+/**
+ * Convert a list of [Country] to a list of [CountryDTO]
+ */
+internal fun List<Country>.toDTOs(): List<CountryDTO> {
+    return map { it.toDTO() }
+}
