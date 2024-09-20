@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -47,7 +50,11 @@ class MainActivity : ComponentActivity() {
                     Box(Modifier.safeDrawingPadding()) {
                         Scaffold(
                             bottomBar = {
-                                if (appUiState.isBottomNavVisible) {
+                                AnimatedVisibility(
+                                    visible = appUiState.isBottomNavVisible,
+                                    enter = slideInVertically { it / 2 },
+                                    exit = slideOutVertically { it / 2 },
+                                ) {
                                     NavigationBar {
                                         BottomNavDestination.entries.forEach { destination ->
                                             key(destination.route) {
