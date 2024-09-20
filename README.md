@@ -6,7 +6,7 @@
 
 ## Preview
 
-<img src="/preview/preview.gif" width="50%"/>
+<img src="/preview/preview.gif" width="32%"/>
 
 ## Architecture
 
