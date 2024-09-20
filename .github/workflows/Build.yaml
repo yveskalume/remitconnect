@@ -38,11 +38,11 @@ jobs:
         run: ./gradlew test --stacktrace
 
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          files: |
-            */test-results/*.xml
+          name: unit-test-results
+          path: '**/build/test-results/test*UnitTest/**.xml'
 
       - name: Build APK
         run: ./gradlew assembleDebug --stacktrace
