@@ -1,6 +1,6 @@
 <h1 align="center">RemitConnect</h1><br>
 <p align="center">  
-Welcome to **RemitConnect**, a remittance app that allows users to send money seamlessly from Europe to Africa.
+<b>RemitConnect</b> is a remittance app that allows users to send money seamlessly from Europe to Africa.
 </p>
 <br>
 
