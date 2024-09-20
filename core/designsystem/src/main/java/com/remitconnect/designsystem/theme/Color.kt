@@ -10,6 +10,7 @@ val BackgroundColor = Color(0xFFF8FCFB)
 val Gray200 = Color(0xFFE0E2E5)
 val Gray100 = Color(0xFFF2F3F4)
 val Yellow = Color(0xFFFFCF00)
+val DefaultTextDark = Color(0xFF00122C)
 
 val ColorScheme.surfaceGray: Color
     get() = Gray100

@@ -17,7 +17,9 @@ private val DarkColorScheme = darkColorScheme(
 
 private val LightColorScheme = lightColorScheme(
     primary = Green300,
-    surfaceContainer = Color.White
+    surfaceContainer = Color.White,
+    onBackground = DefaultTextDark,
+    onSurface = DefaultTextDark
 )
 
 @Composable
