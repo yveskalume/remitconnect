@@ -20,6 +20,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
@@ -49,8 +51,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.remitconnect.designsystem.resources.Drawable
@@ -202,7 +207,9 @@ internal fun ChooseRecipientScreen(
                 is ChooseRecipientUiState.Error -> {
                     Text(
                         text = uiState.message,
-                        modifier = Modifier.padding(24.dp).align(Alignment.CenterHorizontally),
+                        modifier = Modifier
+                            .padding(24.dp)
+                            .align(Alignment.CenterHorizontally),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -289,6 +296,21 @@ private fun PreviousRecipientsTabContent(
 
 @Composable
 private fun NewRecipientTabContent(modifier: Modifier = Modifier) {
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    var firstName by rememberSaveable {
+        mutableStateOf("")
+    }
+
+    var lastName by rememberSaveable {
+        mutableStateOf("")
+    }
+
+    var phoneNumber by rememberSaveable {
+        mutableStateOf("")
+    }
+
     Column(
         modifier = modifier.padding(horizontal = 24.dp)
     ) {
@@ -383,9 +405,16 @@ private fun NewRecipientTabContent(modifier: Modifier = Modifier) {
         )
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = phoneNumber,
+            onValueChange = { phoneNumber = it },
             textStyle = MaterialTheme.typography.bodyMedium,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Phone,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide()
+            }),
             modifier = Modifier.fillMaxWidth(),
         )
 
@@ -398,8 +427,14 @@ private fun NewRecipientTabContent(modifier: Modifier = Modifier) {
         )
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = firstName,
+            onValueChange = { firstName = it },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide()
+            }),
             textStyle = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.fillMaxWidth(),
         )
@@ -413,8 +448,14 @@ private fun NewRecipientTabContent(modifier: Modifier = Modifier) {
         )
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = lastName,
+            onValueChange = { lastName = it },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide()
+            }),
             textStyle = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.fillMaxWidth(),
         )
