@@ -110,19 +110,19 @@ class SendMoneyConfirmationViewModel @Inject constructor(
 
     private suspend fun getRecipientById(recipientId: String): Result<Recipient> {
         return recipientRepository.getRecipients().mapCatching { recipients ->
-            recipients.first { it.id == recipientId }
+            recipients.firstOrNull { it.id == recipientId } ?: throw Exception("Recipient not found")
         }
     }
 
     private suspend fun getCountryByName(countryName: String): Result<Country> {
         return countryRepository.getCountries().mapCatching { countries ->
-            countries.first { it.name == countryName }
+            countries.firstOrNull { it.name == countryName } ?: throw Exception("Country not found")
         }
     }
 
     private suspend fun getMobileWalletById(mobileWalletId: String): Result<MobileWallet> {
         return mobileWalletRepository.getMobileWallets().mapCatching { mobileWallets ->
-            mobileWallets.first { it.id == mobileWalletId }
+            mobileWallets.firstOrNull { it.id == mobileWalletId } ?: throw Exception("Mobile wallet not found")
         }
     }
 }

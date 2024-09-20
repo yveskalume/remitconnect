@@ -40,4 +40,6 @@ dependencies {
     api(libs.androidx.espresso.core)
     api(libs.kotlinx.coroutines.test)
     api(libs.mockk)
+    api(libs.robolectric)
+    api(libs.androidx.navigation.testing)
 }
