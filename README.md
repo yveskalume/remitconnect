@@ -4,6 +4,9 @@
 </p>
 <br>
 
+<p align="center">
+  <a href="https://github.com/yveskalume/remitconnect/actions/workflows/Build.yaml"><img alt="Build Status" src="https://github.com/yveskalume/remitconnect/actions/workflows/Build.yaml/badge.svg"/></a>
+</p>
 ## Preview
 
 <img src="/preview/preview.gif" width="32%"/>
